@@ -1,3 +1,4 @@
+/* --- Global Reset & Base Styles --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,6 +11,7 @@ body {
   color: #333;
 }
 
+/* --- Layout Header Structure --- */
 header {
   background-color: #111;
   color: #fff;
@@ -46,6 +48,7 @@ nav ul li a.active, nav ul li a:hover {
   color: #f39c12;
 }
 
+/* --- Container Core Framing --- */
 .container {
   max-width: 1200px;
   margin: 30px auto;
@@ -58,9 +61,9 @@ nav ul li a.active, nav ul li a:hover {
   font-size: 24px;
 }
 
-/* Hero Section */
+/* --- Gallery Hero Module --- */
 .hero {
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://unsplash.com') no-repeat center center/cover;
   color: white;
   text-align: center;
   padding: 100px 20px;
@@ -93,7 +96,7 @@ nav ul li a.active, nav ul li a:hover {
   background-color: #d68910;
 }
 
-/* Filter Buttons */
+/* --- Filtering Controls --- */
 .filter-buttons {
   display: flex;
   justify-content: center;
@@ -124,7 +127,7 @@ nav ul li a.active, nav ul li a:hover {
   color: #555;
 }
 
-/* Product Grid System */
+/* --- Catalog Grid Display --- */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -195,7 +198,7 @@ nav ul li a.active, nav ul li a:hover {
   background-color: #34495e;
 }
 
-/* Contact & Profile Layout */
+/* --- Panel & Form Element Containment --- */
 .content-box {
   background: #fff;
   padding: 40px;
@@ -241,7 +244,7 @@ nav ul li a.active, nav ul li a:hover {
   background-color: #d68910;
 }
 
-/* Cart Table Styles */
+/* --- Cart Matrix Data Tables --- */
 .cart-table {
   width: 100%;
   border-collapse: collapse;
@@ -273,6 +276,7 @@ nav ul li a.active, nav ul li a:hover {
   background-color: #c0392b;
 }
 
+/* --- Footer Area --- */
 footer {
   text-align: center;
   padding: 20px;
@@ -281,8 +285,103 @@ footer {
   margin-top: 40px;
 }
 
+/* --- Integrated Checkout Payment Modal Overlay System --- */
+.modal-overlay {
+  display: none; /* Controlled dynamically via active JS invocation rules */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  animation: fadeInModal 0.25s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.close-modal {
+  position: absolute;
+  top: 12px; right: 20px;
+  font-size: 28px; font-weight: bold; color: #aaa;
+  cursor: pointer;
+}
+
+.close-modal:hover { color: #333; }
+
+.payment-tabs {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin: 20px 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px 10px;
+  background: #f8f9fa;
+  border: none; outline: none;
+  cursor: pointer; font-weight: bold; color: #555;
+  transition: all 0.2s ease-in-out;
+}
+
+.tab-btn.active {
+  background: #27ae60;
+  color: white;
+}
+
+.tab-panel {
+  display: none; /* Keeps background tabs completely hidden */
+}
+
+.tab-panel.active {
+  display: block; /* Forces chosen option pane to populate space */
+}
+
+.payment-details-box {
+  background: #f9f9f9;
+  padding: 15px;
+  border-left: 4px solid #27ae60;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.payment-details-box p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.note-text {
+  font-size: 0.85rem;
+  color: #777;
+  line-height: 1.4;
+}
+
+/* --- Mobile Responsiveness Layout Breakthroughs --- */
 @media(max-width: 768px) {
   .contact-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .payment-tabs {
+    flex-direction: column;
+    gap: 5px;
+    border-bottom: none;
+  }
+
+  .tab-btn {
+    border-radius: 4px;
   }
 }
