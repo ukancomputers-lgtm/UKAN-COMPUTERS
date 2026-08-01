@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile & Cart - UKAN Computers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="BEBZ LOGO FINAL.png" alt="UKAN Computers Logo">
+      <h1>UKAN Computers</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery & Laptops</a></li>
+        <li><a href="profile.html" class="active">My Profile & Cart</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="content-box">
+      <h3 class="section-title">Customer Profile & Saved Cart Items</h3>
+      <p>Welcome back! Below are the laptop models you have added to your cart from our catalog. You can review your selected items or clear your cart anytime before checking out.</p>
+      
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Laptop Model / Item Description</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="cart-items-body">
+          <!-- Cart items dynamically injected via script.js -->
+        </tbody>
+      </table>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+        <h3>Total: <span id="cart-total" style="color: #27ae60;">KSh 0</span></h3>
+        <div>
+          <button onclick="clearCart()" class="remove-btn" style="margin-right: 10px;">Clear Cart</button>
+          <button onclick="alert('Proceeding to checkout with UKAN Computers!')" class="submit-btn">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2019 UKAN Computers. Located in Nairobi, Mfangano Street. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

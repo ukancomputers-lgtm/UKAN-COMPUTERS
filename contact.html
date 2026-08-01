@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - UKAN Computers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="BEBZ LOGO FINAL.png" alt="UKAN Computers Logo">
+      <h1>UKAN Computers</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery & Laptops</a></li>
+        <li><a href="profile.html">My Profile & Cart</a></li>
+        <li><a href="contact.html" class="active">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="content-box">
+      <h3 class="section-title">Get in Touch with Us</h3>
+      <div class="contact-grid">
+        <div>
+          <h4>Visit Our Shop</h4>
+          <p><strong>Location:</strong> Nairobi, Mfangano Street</p>
+          <p><strong>Phone:</strong> +254 798 946 097</p>
+          <p><strong>Email:</strong> ukancomputers@gmail.com</p>
+          <p><strong>Working Hours:</strong> Monday – Saturday: 8:00 AM – 7:00 PM</p>
+        </div>
+        <div>
+          <h4>Send Us a Message</h4>
+          <!-- Formspree Integration below -->
+          <form action="https://formspree.io/f/xlgqypwj" method="POST">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email / Phone</label>
+              <!-- Pro tip: Changed name attribute to _replyto or email so Formspree recognizes it for easy replies -->
+              <input type="text" id="email" name="email_or_phone" required placeholder="Enter your email or phone number">
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4" required placeholder="How can we help you?"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2019 UKAN Computers. Located in Nairobi, Mfangano Street. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>
