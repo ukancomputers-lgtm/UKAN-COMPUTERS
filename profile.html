@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Profile & Cart - UKAN Computers</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Fast, lightweight direct inline script link for Paystack -->
+  <script src="https://paystack.co"></script>
 </head>
 <body>
 
@@ -46,8 +48,72 @@
         <h3>Total: <span id="cart-total" style="color: #27ae60;">KSh 0</span></h3>
         <div>
           <button onclick="clearCart()" class="remove-btn" style="margin-right: 10px;">Clear Cart</button>
-          <button onclick="alert('Proceeding to checkout with UKAN Computers!')" class="submit-btn">Proceed to Checkout</button>
+          <button onclick="openPaymentModal()" class="submit-btn">Proceed to Checkout</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN POPUP PAYMENT MODAL -->
+  <div id="payment-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+      <h3>Select Payment Option</h3>
+      <p>Choose your preferred payment method below to complete your order:</p>
+      
+      <div class="payment-tabs">
+        <button class="tab-btn active" onclick="switchPaymentTab(this, 'mpesa-online')">M-Pesa STK</button>
+        <button class="tab-btn" onclick="switchPaymentTab(this, 'equity')">Equity Bank</button>
+        <button class="tab-btn" onclick="switchPaymentTab(this, 'till')">Buy Goods Till</button>
+      </div>
+
+      <div class="tab-panels">
+        <!-- M-Pesa Panel -->
+        <div id="mpesa-online" class="tab-panel active">
+          <h4>M-Pesa Instant Online Checkout</h4>
+          <p>Receive an STK push prompt directly to your phone to enter your M-Pesa PIN safely.</p>
+          <button onclick="showMpesaVerificationTab()" class="submit-btn" style="width: 100%; margin-top: 15px;">Initiate M-Pesa Push</button>
+        </div>
+
+        <!-- Equity Panel -->
+        <div id="equity" class="tab-panel">
+          <h4>Equity Bank Transfer Details</h4>
+          <div class="payment-details-box">
+            <p><strong>Bank:</strong> Equity Bank Kenya</p>
+            <p><strong>Pay Bill No:</strong> 247 247</p>
+            <p><strong>Account Number:</strong> 0798 946 097</p>
+            <p><strong>Account Name:</strong> Faith Njeri Kimani</p>
+          </div>
+          <p class="note-text">After making your transfer, please send your confirmation text via our Contact Page or WhatsApp.</p>
+        </div>
+
+        <!-- Till Panel -->
+        <div id="till" class="tab-panel">
+          <h4>Lipa Na M-Pesa: Buy Goods Till</h4>
+          <div class="payment-details-box" style="text-align: center;">
+            <p style="font-size: 1.2rem; color: #27ae60;"><strong>Till Number: 000000</strong></p>
+            <p><strong>Store Name:</strong> FAITH NJERI KIMANI</p>
+          </div>
+          <p class="note-text">1. Go to M-Pesa menu > Lipa na M-Pesa > Buy Goods and Services.<br>2. Enter Till No, amount, and your PIN.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECONDARY POPUP TAB: CONFIRMATION DISPLAY (PREVENTS WRONG TRANSACTIONS) -->
+  <div id="verification-modal" class="modal-overlay" style="z-index: 3000;">
+    <div class="modal-content" style="border-top: 5px solid #f39c12;">
+      <span class="close-modal" onclick="closeVerificationModal()">&times;</span>
+      <h3 style="color: #d68910;">Confirm Payment Recipient</h3>
+      <p style="margin-bottom: 15px; font-size: 0.95rem;">Please review and confirm our payment receiving details before launching the transaction window:</p>
+      
+      <div class="payment-details-box" style="background: #fff8ee; border-left-color: #f39c12;">
+        <p><strong>Name:</strong> fAITH NJERI KIMANI</p>
+        <p><strong>M-Pesa Number:</strong> 0798 946 097</p>
+  
+      
+      
+        
       </div>
     </div>
   </div>
@@ -57,5 +123,84 @@
   </footer>
 
   <script src="script.js"></script>
+
+  <!-- Payment Modal Engine and Verification Script Links -->
+  <script>
+    function openPaymentModal() {
+      let totalText = document.getElementById('cart-total').innerText;
+      let totalAmount = parseInt(totalText.replace(/[^0-9]/g, ''), 10);
+
+      if (!totalAmount || totalAmount <= 0) {
+        alert("Your cart is empty! Please add a laptop to your cart first.");
+        return;
+      }
+      document.getElementById('payment-modal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+      document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    function switchPaymentTab(element, panelId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+      
+      element.classList.add('active');
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    // Opens up the confirmation tab showing your information directly
+    function showMpesaVerificationTab() {
+      document.getElementById('verification-modal').style.display = 'flex';
+    }
+
+    function closeVerificationModal() {
+      document.getElementById('verification-modal').style.display = 'none';
+    }
+
+    function executeSecureStkPush() {
+      closeVerificationModal(); // Hide confirmation window
+      closePaymentModal();      // Hide main payment menu block
+
+      let totalText = document.getElementById('cart-total').innerText;
+      let totalAmount = parseInt(totalText.replace(/[^0-9]/g, ''), 10);
+
+      // System uses an automated routing email parameter for log processing receipts
+      let systemReceiptEmail = "customer@ukancomputers.com";
+
+      let handler = PaystackPop.setup({
+        key: 'pk_live_YOUR_PUBLIC_KEY_HERE', // <-- Paste your Live Public Key from Paystack Dashboard here
+        email: systemReceiptEmail,
+        amount: totalAmount * 100, 
+        currency: 'KES', 
+        ref: 'UKAN-' + Math.floor((Math.random() * 1000000000) + 1),
+        channels: ['mobile_money'], // Automatically routes them to the secure M-Pesa entrance frame
+        metadata: {
+          custom_fields: [
+            { display_name: "Payment Type", variable_name: "payment_type", value: "M-Pesa Checkout Flow" },
+            { display_name: "Target Merchant Till", variable_name: "target_merchant_till", value: "8847238" }
+          ]
+        },
+        callback: function(response) {
+          alert('Payment Successful! Reference ID: ' + response.reference);
+          if (typeof clearCart === "function") {
+            clearCart();
+          }
+          window.location.href = "index.html";
+        },
+        onClose: function() {
+          alert("Transaction closed. If you need fallback options, please use our static account details displayed on the screen.");
+          openPaymentModal(); 
+          
+          let tillTabButton = document.querySelector("button[onclick*='till']");
+          if(tillTabButton) {
+            switchPaymentTab(tillTabButton, 'till');
+          }
+        }
+      });
+
+      handler.openIframe();
+    }
+  </script>
 </body>
 </html>
